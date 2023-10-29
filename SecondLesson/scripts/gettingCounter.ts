@@ -5,18 +5,11 @@ import { NetworkProvider } from '@ton-community/blueprint';
 export async function run(provider: NetworkProvider) {
     const firstContract = provider.open(await FirstContract.fromInit(456345n));
 
-    await firstContract.send(
-        provider.sender(),
-        {
-            value: toNano('0.05'),
-        },
-        {
-            $$type: 'Deploy',
-            queryId: 0n,
-        }
-    );
+   const counter = await firstContract.getCounter();
+   const id = await firstContract.getId();
 
-    await provider.waitForDeploy(firstContract.address);
+   console.log('counter: ', counter);
+   console.log('id: ', id);
 
     // run methods on `firstContract`
 }
